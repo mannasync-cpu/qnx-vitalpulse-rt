@@ -1,4 +1,10 @@
-# QNX VitalPulse RT 🩺⚡🛡️
+# QNX VitalPulse RT
+
+## 🎥 Live Demo Video & Devpost Submission
+
+- **YouTube Demo Video (02:57, 1080p HD, Public):** [https://youtu.be/JaOoaa5uqzY](https://youtu.be/JaOoaa5uqzY)
+- **Official Devpost Submission:** [https://devpost.com/software/qnx-vitalpulse-rt-deterministic-icu-infusion-microkernel](https://devpost.com/software/qnx-vitalpulse-rt-deterministic-icu-infusion-microkernel)
+ 🩺⚡🛡️
 
 **Deterministic ICU Bedside Monitor, Priority-Inherited Closed-Loop Infusion Safety Microkernel, IEC 62304 Class C Host Analyzer & Interactive 5-Step Codelab for QNX SDP 8.0**
 
