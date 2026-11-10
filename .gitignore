@@ -1,0 +1,10 @@
+node_modules/
+.next/
+video_build/
+*.mp4
+*.webm
+*.aiff
+._*
+.DS_Store
+.env*
+qnx-target/bin/

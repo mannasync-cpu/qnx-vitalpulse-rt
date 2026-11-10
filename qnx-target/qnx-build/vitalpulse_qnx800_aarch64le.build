@@ -1,0 +1,56 @@
+# QNX SDP 8.0 IFS System Buildfile — QNX VitalPulse RT (aarch64le QEMU / Raspberry Pi 5 Target)
+# Build command: mkifs -v vitalpulse_qnx800_aarch64le.build vitalpulse_qnx800.ifs
+# Boot in QEMU:  qemu-system-aarch64 -M virt -cpu cortex-a72 -m 1024 -nographic -kernel vitalpulse_qnx800.ifs
+
+[virtual=aarch64le,raw] .bootstrap = {
+    startup-qemu-virt
+    PATH=/proc/boot:/bin:/usr/bin LD_LIBRARY_PATH=/proc/boot:/lib:/usr/lib procnto-smp-instr -v
+}
+
+[+script] .script = {
+    procmgr_symlink ../../proc/boot/libc.so.5 /usr/lib/ldqnx-64.so.2
+
+    display_msg "=================================================================="
+    display_msg " QNX SDP 8.0 — VitalPulse RT ICU Bedside & Infusion Safety Kernel"
+    display_msg " IEC 62304 Class C Hard Real-Time Partitioning Active"
+    display_msg "=================================================================="
+
+    # 1. Start System Logger & High-Availability Manager (HAM)
+    slogger2
+    ham
+
+    # 2. Configure QNX Adaptive Partitioning Scheduler (APS) Budgets
+    #    - MedSafety_ClassC : 60% guaranteed CPU, 25ms critical budget
+    #    - EdgeAI_Inference : 25% guaranteed CPU
+    #    - HL7_FHIR_Export  : 15% guaranteed CPU
+    aps create -b 60 -B 25 MedSafety_ClassC
+    aps create -b 25 EdgeAI_Inference
+    aps create -b 15 HL7_FHIR_Export
+
+    # 3. Launch QNX Resource Manager (/dev/medical/vitalpulse) in MedSafety_ClassC at Priority 63
+    on -Xaps=MedSafety_ClassC -p 63f /proc/boot/vitalpulse_resmgr &
+    waitfor /dev/medical/vitalpulse 2
+
+    # 4. Run Deterministic Closed-Loop ICU Benchmark & Watchdog
+    on -Xaps=MedSafety_ClassC -p 45f /proc/boot/vitalpulse_icu_benchmark vtach_priority_inversion
+}
+
+[type=link] /bin/sh=/proc/boot/ksh
+[type=link] /dev/console=/dev/ser1
+[type=link] /tmp=/dev/shmem
+
+libc.so
+libm.so
+libha.so
+
+[data=c]
+ksh
+slogger2
+ham
+aps
+on
+waitfor
+pidin
+traceprinter
+/proc/boot/vitalpulse_resmgr=vitalpulse_resmgr
+/proc/boot/vitalpulse_icu_benchmark=vitalpulse_icu_benchmark

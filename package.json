@@ -1,0 +1,32 @@
+{
+  "name": "qnx-vitalpulse-rt",
+  "version": "1.0.0",
+  "private": true,
+  "license": "MIT",
+  "description": "QNX VitalPulse RT — Deterministic ICU Bedside Monitor, Closed-Loop Infusion Safety Microkernel, IEC 62304 Host Analyzer & Interactive Codelab for QNX SDP 8.0",
+  "scripts": {
+    "dev": "next dev -p 3096",
+    "build": "next build",
+    "start": "next start -p 3096",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "build:qnx-c": "cd qnx-target && make host"
+  },
+  "dependencies": {
+    "@google/genai": "^1.0.0",
+    "lucide-react": "^0.454.0",
+    "next": "14.2.15",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.10",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "autoprefixer": "^10.4.19",
+    "postcss": "^8.4.39",
+    "tailwindcss": "^3.4.4",
+    "typescript": "^5.5.3",
+    "vitest": "^2.1.4"
+  }
+}
